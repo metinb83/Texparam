@@ -176,6 +176,8 @@ def main():
         * **Grundlegende Metriken**: Zeichen, Wörter, Satzzeichen
         * **Komplexitätsmetriken**: Wort- und Satzlänge, Kommasetzung
         * **Linguistische Level**: Bewertung der Sprachkomplexität
+
+        (Achtung: Vorherige Formatierung nötig)
         
         ### Berechnete Parameter
         
