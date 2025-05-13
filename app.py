@@ -208,17 +208,21 @@ def main():
 
     st.title("Textparameter-Analyse")
     
+    # Session-State initialisieren, falls noch nicht gesetzt
+    if "text_input" not in st.session_state:
+    st.session_state["text_input"] = ""
+
     # Text input area
     st.subheader("Text eingeben:")
-    text_input = st.text_area("", height=300)
+    text_input = st.text_area("", height=300, key="text_input")
     
     # Analyze button
     if st.button("Analysieren"):
-        if text_input.strip():
+        if st.session_state["text_input"].strip():
             with st.spinner("Analysiere Text..."):
-                results = analyze_text(text_input)
+                results = analyze_text(st.session_state["text_input"])
             # Update the input box to show the cleaned text
-            st.session_state["text_input"] = results.get("cleaned_text", text_input)
+            st.session_state["text_input"] = results.get("cleaned_text", st.session_state["text_input"])
             # Display results
             st.subheader("Ergebnisse:")
             st.markdown(format_results(results))
