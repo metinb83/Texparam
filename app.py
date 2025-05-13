@@ -8,6 +8,61 @@ def analyze_text(text):
     if not text:
         return None
 
+    text = text.replace('"', '')
+    text = text.replace('„', '')
+    text = text.replace('“', '')
+    text = text.replace('”', '')
+
+    text = text.replace(';', ',')
+    text = text.replace(' -', ',')
+    text = text.replace(' –', ',')
+
+    text = text.replace('-', '')
+
+    text = text.replace('. Januar', ' Januar')
+    text = text.replace('. Februar', ' Februar')
+    text = text.replace('. März', ' März')
+    text = text.replace('. April', ' April')
+    text = text.replace('. Mai', ' Mai')
+    text = text.replace('. Juni', ' Juni')
+    text = text.replace('. Juli', ' Juli')
+    text = text.replace('. August', ' August')
+    text = text.replace('. September', ' September')
+    text = text.replace('. Oktober', ' Oktober')
+    text = text.replace('. November', ' November')
+    text = text.replace('. Dezember', ' Dezember')
+    text = text.replace('. Jahrhundert', ' Jahrhundert')
+
+    text = text.replace('z.B.', 'zB')
+    text = text.replace('z. B.', 'zB')
+    text = text.replace('d.h.', 'dh')
+    text = text.replace('d. h.', 'dh')
+    text = text.replace('u.a.', 'ua')
+    text = text.replace('u. a.', 'ua')
+    text = text.replace('i.d.R.', 'idR')
+    text = text.replace('i. d. R.', 'idR')
+
+    text = text.replace('ca.', 'ca')
+    text = text.replace('bzw.', 'bzw')
+    text = text.replace('etc.', 'etc')
+    text = text.replace('usw.', 'usw')
+    text = text.replace('ggf.', 'ggf')
+    text = text.replace('vgl.', 'vgl')
+    text = text.replace('Mio.', 'Mio')
+    text = text.replace('Mrd.', 'Mrd')
+    text = text.replace('bzgl.', 'bzgl')
+    text = text.replace('evtl.', 'evtl')
+    text = text.replace('Dr.', 'Dr')
+    text = text.replace('Prof.', 'Prof')
+
+    text = re.sub(r'(?<=\d),(?=\d)', '', text)
+    text = re.sub(r'(?<=\d)\.(?=\d)', '', text)
+    
+    text = re.sub(r' {2,}', ' ', text)
+
+    text = text.replace('!', '.')
+    text = text.replace('?', '.')
+
     # Grundgrößen (Basic metrics)
     total_chars = len(text)
     total_chars_no_spaces = len(re.sub(r"\s+", "", text))
@@ -173,21 +228,21 @@ def main():
         
         Diese Anwendung analysiert einen gegebenen Text und berechnet verschiedene linguistische Parameter:
         
-        * **Grundlegende Metriken**: Zeichen, Wörter, Satzzeichen
-        * **Komplexitätsmetriken**: Wort- und Satzlänge, Kommasetzung
-        * **Linguistische Level**: Bewertung der Sprachkomplexität
+        * Grundlegende Metriken: Zeichen, Wörter, Satzzeichen
+        * Komplexitätsmetriken: Wort- und Satzlänge, Kommasetzung
+        * Linguistische Level: Bewertung der Sprachkomplexität
 
-        (Achtung: Vorherige Formatierung nötig)
+        (Der Text wird automatisch für die Analyse formatiert)
         
         ### Berechnete Parameter
         
-        * **W**: Durchschnittliche Buchstaben pro Wort
-        * **SZ**: Durchschnittliche Buchstaben pro Satz
-        * **K**: Verhältnis von Kommas zu Punkten
-        * **P**: Prozentsatz von Kleinwörtern mit adjektivischen Endungen
-        * **Q**: Prozentsatz von Großwörtern mit akademischen Endungen
-        * **L1-L5**: Implizite Sprachniveaus für verschiedene Aspekte
-        * **LT**: Durchschnittliches Sprachniveau
+        * W: Durchschnittliche Buchstaben pro Wort
+        * SZ: Durchschnittliche Buchstaben pro Satz
+        * K: Verhältnis von Kommas zu Punkten
+        * P: Prozentsatz von Kleinwörtern mit adjektivischen Endungen
+        * Q: Prozentsatz von Großwörtern mit akademischen Endungen
+        * L1-L5: Implizite Sprachniveaus für verschiedene Aspekte
+        * LT: Durchschnittliches Sprachniveau
         
         Die Konfidenzintervalle (95% CI) geben die statistische Sicherheit der Messungen an.
         """)
