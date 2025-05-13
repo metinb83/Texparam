@@ -63,6 +63,9 @@ def analyze_text(text):
     text = text.replace('!', '.')
     text = text.replace('?', '.')
 
+    # Save cleaned text
+    cleaned_text = text
+    
     # Grundgrößen (Basic metrics)
     total_chars = len(text)
     total_chars_no_spaces = len(re.sub(r"\s+", "", text))
@@ -214,7 +217,8 @@ def main():
         if text_input.strip():
             with st.spinner("Analysiere Text..."):
                 results = analyze_text(text_input)
-                
+            # Update the input box to show the cleaned text
+            st.session_state["text_input"] = results.get("cleaned_text", text_input)
             # Display results
             st.subheader("Ergebnisse:")
             st.markdown(format_results(results))
