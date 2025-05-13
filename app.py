@@ -210,7 +210,7 @@ def main():
     
     # Session-State initialisieren, falls noch nicht gesetzt
     if "text_input" not in st.session_state:
-    st.session_state["text_input"] = ""
+        st.session_state["text_input"] = ""
 
     # Text input area
     st.subheader("Text eingeben:")
