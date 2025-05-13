@@ -215,19 +215,27 @@ def main():
     # Text input area
     st.subheader("Text eingeben:")
     text_input = st.text_area("", height=300, key="text_input")
-    
-    # Analyze button
-    if st.button("Analysieren"):
-        if st.session_state["text_input"].strip():
-            with st.spinner("Analysiere Text..."):
-                results = analyze_text(st.session_state["text_input"])
-            # Update the input box to show the cleaned text
-            st.session_state["text_input"] = results.get("cleaned_text", st.session_state["text_input"])
-            # Display results
-            st.subheader("Ergebnisse:")
-            st.markdown(format_results(results))
-        else:
-            st.error("Bitte geben Sie einen Text ein.")
+
+    # Callback für den Button
+    def _on_analyze():
+        text = st.session_state["text_input"].strip()
+        if not text:
+            st.session_state["error_msg"] = "Bitte geben Sie einen Text ein."
+            return
+        with st.spinner("Analysiere Text..."):
+            res = analyze_text(text)
+        # Session-State nur im Callback mutieren
+        st.session_state["text_input"]     = res.get("cleaned_text", text)
+        st.session_state["analysis_res"]   = res
+
+    st.button("Analysieren", on_click=_on_analyze)
+
+    # Fehlermeldung oder Ergebnisse anzeigen
+    if st.session_state.get("error_msg"):
+        st.error(st.session_state.pop("error_msg"))
+    elif st.session_state.get("analysis_res"):
+        st.subheader("Ergebnisse:")
+        st.markdown(format_results(st.session_state.pop("analysis_res")))
     
     # Display help information in an expandable section
     with st.expander("Informationen zur Textparameter-Analyse"):
